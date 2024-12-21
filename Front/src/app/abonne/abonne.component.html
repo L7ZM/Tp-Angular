@@ -1,0 +1,136 @@
+<div class="container mx-auto py-8 bg-gray-50 rounded-lg shadow-md">
+  <h2 class="text-3xl font-semibold text-center text-gray-800 mb-8">
+    Liste des Abonnés
+  </h2>
+
+  <!-- Bouton Ajouter un abonné -->
+  <div class="flex justify-center mb-6">
+    <button (click)="openModal()" class="btn-primary">Ajouter un abonné</button>
+  </div>
+
+  <!-- Modal for Adding Subscriber -->
+  <div *ngIf="isModalOpen" class="modal-overlay">
+    <div class="modal-container">
+      <h2 class="text-center text-2xl font-semibold text-gray-700 mb-4">
+        Ajouter un nouvel abonné
+      </h2>
+      <form (ngSubmit)="submitForm()" #abonneForm="ngForm">
+        <!-- Nom et Prénom -->
+        <div class="form-group">
+          <input
+            [(ngModel)]="newAbonne.nom"
+            #nom="ngModel"
+            required
+            id="nom"
+            name="nom"
+            type="text"
+            class="form-input"
+            placeholder="Nom"
+            [ngClass]="{ 'input-error': nom.invalid && nom.touched }"
+          />
+        </div>
+
+        <div class="form-group">
+          <input
+            [(ngModel)]="newAbonne.prenom"
+            #prenom="ngModel"
+            required
+            id="prenom"
+            name="prenom"
+            type="text"
+            class="form-input"
+            placeholder="Prénom"
+            [ngClass]="{ 'input-error': prenom.invalid && prenom.touched }"
+          />
+        </div>
+
+        <!-- Adresse -->
+        <div class="form-group">
+          <input
+            [(ngModel)]="newAbonne.adresse"
+            #adresse="ngModel"
+            required
+            id="adresse"
+            name="adresse"
+            type="text"
+            class="form-input"
+            placeholder="Adresse"
+            [ngClass]="{ 'input-error': adresse.invalid && adresse.touched }"
+          />
+        </div>
+
+        <!-- Actions -->
+        <div class="modal-actions">
+          <button (click)="closeModal()" class="btn-secondary">Annuler</button>
+          <button
+            type="submit"
+            [disabled]="abonneForm.invalid"
+            class="btn-primary"
+            [ngClass]="{ 'btn-disabled': abonneForm.invalid }"
+          >
+            Soumettre
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Loading Indicator -->
+  <div *ngIf="isLoading" class="loading-indicator">
+    <svg
+      class="spinner"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <circle
+        class="opacity-25"
+        cx="12"
+        cy="12"
+        r="10"
+        stroke="currentColor"
+        stroke-width="4"
+      ></circle>
+      <path
+        class="opacity-75"
+        fill="currentColor"
+        d="M4 12a8 8 0 018-8v8H4z"
+      ></path>
+    </svg>
+    Chargement des données...
+  </div>
+
+  <!-- Error Message -->
+  <div
+    *ngIf="!isLoading && errorMessage"
+    class="text-center text-red-500 font-medium"
+  >
+    {{ errorMessage }}<br />
+    <button class="btn-retry" (click)="retryFetch()">Réessayer</button>
+  </div>
+
+  <!-- Table Content -->
+  <div *ngIf="!isLoading && !errorMessage">
+    <div class="overflow-x-auto">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nom Complet</th>
+            <th>Adresse</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let abonne of abonnes">
+            <td>{{ abonne?.id }}</td>
+            <td>{{ abonne?.nom + " " + abonne?.prenom }}</td>
+            <td>{{ abonne?.adresse }}</td>
+          </tr>
+          <tr *ngIf="abonnes.length === 0">
+            <td colspan="3" class="text-center">Aucun abonné disponible.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

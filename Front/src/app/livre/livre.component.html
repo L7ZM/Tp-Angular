@@ -1,0 +1,49 @@
+<div class="container mx-auto py-8">
+  <h2 class="text-2xl font-bold text-center mb-6">Liste des Livres</h2>
+
+  <!-- Indicateur de chargement -->
+  <div *ngIf="isLoading" class="text-center text-gray-500">
+    Chargement des données...
+  </div>
+
+  <!-- Gestion de l'erreur -->
+  <div
+    *ngIf="!isLoading && errorMessage"
+    class="text-center text-red-500 font-semibold"
+  >
+    {{ errorMessage }}<br />
+    <button
+      class="mt-4 px-4 py-2 bg-cyan-950 text-white rounded hover:bg-cyan-700"
+      (click)="retryFetch()"
+    >
+      Réessayer
+    </button>
+  </div>
+
+  <!-- Contenu du tableau -->
+  <div *ngIf="!isLoading && !errorMessage">
+    <div class="table-container max-h-50vh overflow-y-auto">
+      <table class="text-left w-full border-collapse border border-gray-200">
+        <thead class="bg-cyan-950 text-white">
+          <tr>
+            <th class="p-4 border border-gray-300">ID</th>
+            <th class="p-4 border border-gray-300">Titre</th>
+            <th class="p-4 border border-gray-300">Auteur</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let livre of livres" class="hover:bg-gray-100">
+            <td class="p-4 border border-gray-300">{{ livre.id }}</td>
+            <td class="p-4 border border-gray-300">{{ livre.titre }}</td>
+            <td class="p-4 border border-gray-300">{{ livre.auteur }}</td>
+          </tr>
+          <tr *ngIf="livres.length === 0">
+            <td colspan="3" class="text-center p-4 text-gray-500">
+              Aucun livre disponible.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

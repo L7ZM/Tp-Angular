@@ -1,0 +1,61 @@
+/* General Body Styling */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f7fafc; /* Soft background color */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Header Styling */
+h1.text-4xl {
+  font-size: 2.25rem; /* 36px */
+  font-weight: 800;
+  text-align: center;
+  background-image: linear-gradient(to right, #4299e1, #48bb78); /* Gradient background */
+  color: black; /* Makes text transparent, background gradient shows */
+  margin-top: 2rem; /* Adds margin to top */
+  margin-bottom: 1.5rem; /* Adds margin to bottom */
+  animation: fadeIn 2s ease-in-out; /* Adds fade-in animation */
+}
+
+/* Smooth Fade-in Animation */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Image Container Styling */
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px; /* Adds rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
+  transition: transform 0.3s ease; /* Smooth transform transition */
+}
+
+/* Hover Effect on Image */
+img:hover {
+  transform: scale(1.05); /* Slightly scales the image on hover */
+}
+
+/* Responsiveness: Adjusts for smaller screens */
+@media screen and (max-width: 768px) {
+  h1.text-4xl {
+    font-size: 1.75rem; /* Adjust font size on smaller screens */
+  }
+  .flex {
+    padding: 1rem; /* Adds padding around the flex container */
+  }
+}

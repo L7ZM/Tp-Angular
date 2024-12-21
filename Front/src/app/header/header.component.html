@@ -1,0 +1,29 @@
+<header class="header sticky top-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-700 shadow-lg flex items-center justify-between px-10 py-4">
+  <!-- Logo -->
+  <div class="logo w-3/12 flex items-center">
+    <a [routerLink]="['/']" class="flex items-center space-x-3" routerLinkActive="router-link-active">
+      <img src="assets/icons/biblio.png" class="h-10 sm:h-12" alt="BIBLIO" />
+    </a>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="nav text-lg font-medium">
+    <ul class="flex items-center space-x-10">
+      <li>
+        <a [routerLink]="['/livre']" routerLinkActive="router-link-active" class="nav-item">
+          Livres
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="['/abonne']" routerLinkActive="router-link-active" class="nav-item">
+          Abonnés
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="['/pret']" routerLinkActive="router-link-active" class="nav-item">
+          Prêts
+        </a>
+      </li>
+    </ul>
+  </nav>
+</header>

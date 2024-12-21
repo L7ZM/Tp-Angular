@@ -1,0 +1,81 @@
+/* General Body Styling */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f7fafc;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Header Styling */
+.header {
+  position: sticky;
+  top: 0;
+  background: linear-gradient(to right, #4c51bf, #6b46c1, #4c51bf); /* Gradient background */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds shadow for depth */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2.5rem;
+  z-index: 10;
+}
+
+/* Logo Styling */
+.logo img {
+  height: 2.5rem;
+  transition: transform 0.3s ease;
+}
+
+.logo img:hover {
+  transform: scale(1.1); /* Slight zoom effect on hover */
+}
+
+/* Navigation Bar */
+.nav ul {
+  display: flex;
+  gap: 2.5rem; /* Space between nav items */
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Navigation Items Styling */
+.nav-item {
+  color: white;
+  text-decoration: none;
+  font-size: 1.125rem; /* 18px */
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.nav-item:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* Hover background effect */
+  transform: scale(1.05); /* Slight scale on hover */
+}
+
+/* Active Link Styling */
+.router-link-active {
+  font-weight: bold;
+  color: #f3f4f6; /* Light color when active */
+}
+
+/* Responsiveness for Smaller Screens */
+@media screen and (max-width: 768px) {
+  .header {
+    padding: 1rem 1.5rem; /* Adjust padding for smaller screens */
+  }
+
+  .logo img {
+    height: 2rem; /* Smaller logo on mobile */
+  }
+
+  .nav ul {
+    gap: 1.5rem; /* Reduced space between nav items on mobile */
+  }
+
+  .nav-item {
+    font-size: 1rem; /* Smaller font size on mobile */
+  }
+}

@@ -1,0 +1,161 @@
+<div class="container mx-auto py-8">
+  <div class="text-center mb-4">
+    <p class="font-bold text-lg">
+      Si vous voulez associer un livre à un abonné, cliquez sur ce lien :
+      <a
+        (click)="openModal()"
+        class="text-blue-500 underline hover:text-blue-700 font-bold cursor-pointer">
+        Effectuez un prêt
+      </a>
+    </p>
+  </div>
+
+  <div *ngIf="isModalOpen" class="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+      <h2 class="text-center text-2xl font-bold mb-6">Associe un livre à un abonné</h2>
+      <form (ngSubmit)="submitForm()" #pretForm="ngForm">
+        <div class="flex flex-col gap-4 mb-4">
+          <div class="flex flex-col">
+            <label for="idLivre" class="text-sm font-medium text-gray-700 mb-1">Titre du Livre</label>
+            <select
+              [(ngModel)]="newPret.id_livre"
+              #idLivre="ngModel"
+              required
+              id="idLivre"
+              name="idLivre"
+              class="border bg-white w-full rounded-lg px-3.5 py-3 text-lg focus:ring-blue-600 outline-none focus:ring-2 focus:ring-offset-0 focus:ring-offset-white transition-all"
+              [ngClass]="{
+                'border-red-500 focus:ring-red-500': idLivre.invalid && idLivre.touched,
+                'border-gray-300': !idLivre.touched || !idLivre.invalid
+              }"
+            >
+              <option value="" disabled selected>Choisir un livre</option>
+              <option *ngFor="let livre of livres" [value]="livre.id">{{ livre.titre }}</option>
+            </select>
+          </div>
+
+          <div class="flex flex-col">
+            <label for="idAbonne" class="text-sm font-medium text-gray-700 mb-1">Nom de l'Abonné</label>
+            <select
+              [(ngModel)]="newPret.id_abonne"
+              #idAbonne="ngModel"
+              required
+              id="idAbonne"
+              name="idAbonne"
+              class="border bg-white w-full rounded-lg px-3.5 py-3 text-lg focus:ring-blue-600 outline-none focus:ring-2 focus:ring-offset-0 focus:ring-offset-white transition-all"
+              [ngClass]="{
+                'border-red-500 focus:ring-red-500': idAbonne.invalid && idAbonne.touched,
+                'border-gray-300': !idAbonne.touched || !idAbonne.invalid
+              }"
+            >
+              <option value="" disabled selected>Choisir un abonné</option>
+              <option *ngFor="let abonne of abonnes" [value]="abonne.id">{{ abonne.nom + ' ' + abonne.prenom }}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-4 mb-4">
+          <div class="flex flex-col">
+            <label for="datePret" class="text-sm font-medium text-gray-700 mb-1">Date du Prêt</label>
+            <input
+              [(ngModel)]="newPret.date_pret"
+              #datePret="ngModel"
+              required
+              id="datePret"
+              name="datePret"
+              type="date"
+              class="border bg-white w-full rounded-lg px-3.5 py-3 text-lg focus:ring-blue-600 outline-none focus:ring-2 focus:ring-offset-0 focus:ring-offset-white transition-all"
+              [ngClass]="{
+                'border-red-500 focus:ring-red-500': datePret.invalid && datePret.touched,
+                'border-gray-300': !datePret.touched || !datePret.invalid
+              }"
+            />
+          </div>
+
+          <div class="flex flex-col">
+            <label for="dateRetour" class="text-sm font-medium text-gray-700 mb-1">Date de Retour</label>
+            <input
+              [(ngModel)]="newPret.date_retour"
+              #dateRetour="ngModel"
+              required
+              id="dateRetour"
+              name="dateRetour"
+              type="date"
+              class="border bg-white w-full rounded-lg px-3.5 py-3 text-lg focus:ring-blue-600 outline-none focus:ring-2 focus:ring-offset-0 focus:ring-offset-white transition-all"
+              [ngClass]="{
+                'border-red-500 focus:ring-red-500': dateRetour.invalid && dateRetour.touched,
+                'border-gray-300': !dateRetour.touched || !dateRetour.invalid
+              }"
+            />
+          </div>
+        </div>
+
+        <div class="flex justify-between">
+          <button
+            (click)="closeModal()"
+            class="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-600 transition-colors duration-300"
+          >
+            Annuler
+          </button>
+          <button
+            type="submit"
+            [disabled]="pretForm.invalid"
+            [ngClass]="{'opacity-50 cursor-not-allowed': !pretForm.valid, 'hover:bg-blue-700': pretForm.valid}"
+            class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition-colors duration-300"
+          >
+            Soumettre
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <h2 class="text-2xl font-bold text-center mb-6">Liste des Prets</h2>
+
+  <div *ngIf="isLoading" class="flex justify-center items-center text-gray-500">
+    <svg class="animate-spin h-5 w-5 mr-3 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+    </svg>
+    Chargement des données...
+  </div>
+
+  <div *ngIf="!isLoading && errorMessage" class="text-center text-red-500 font-semibold">
+    {{ errorMessage }}<br>
+    <button
+      class="mt-4 px-4 py-2 bg-cyan-950 text-white rounded hover:bg-cyan-700"
+      (click)="retryFetch()">
+      Réessayer
+    </button>
+  </div>
+
+  <div *ngIf="!isLoading && !errorMessage">
+    <div class="table-container max-h-50vh overflow-y-auto">
+      <table class="text-left w-full border-collapse border border-gray-200">
+        <thead class="bg-cyan-950 text-white">
+          <tr>
+            <th class="p-4 border border-gray-300">ID</th>
+            <th class="p-4 border border-gray-300">Abonné</th>
+            <th class="p-4 border border-gray-300">Titre du Livre</th>
+            <th class="p-4 border border-gray-300">Date de Prêt</th>
+            <th class="p-4 border border-gray-300">Date de Retour</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let pret of prets" class="hover:bg-gray-100">
+            <td class="p-4 border border-gray-300">{{ pret.id }}</td>
+            <td class="p-4 border border-gray-300">{{ getAbonneNom(pret.id_abonne) }}</td>
+            <td class="p-4 border border-gray-300">{{ getLivreTitre(pret.id_livre) }}</td>
+            <td class="p-4 border border-gray-300">{{ pret.date_pret | date: 'dd/MM/yyyy' }}</td>
+            <td class="p-4 border border-gray-300">{{ pret.date_retour | date: 'dd/MM/yyyy' }}</td>
+          </tr>
+          <tr *ngIf="prets.length === 0">
+            <td colspan="4" class="text-center p-4 text-gray-500">
+              Aucun abonné disponible.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
